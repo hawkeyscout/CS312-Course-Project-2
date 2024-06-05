@@ -1,0 +1,2 @@
+[minecraft_server]
+ec2-54-191-79-187.us-west-2.compute.amazonaws.com ansible_user=ubuntu ansible_ssh_private_key_file=./cs312

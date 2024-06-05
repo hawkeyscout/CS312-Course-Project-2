@@ -1,0 +1,61 @@
+- name: Provision Minecraft Server
+  hosts: all
+  become: yes
+  tasks:
+    - name: Update System Packages
+      apt:
+        update_cache: yes
+        upgrade: yes
+
+    - name: Install OpenJDK 21
+      apt:
+        name: openjdk-21-jdk
+        state: present
+
+    - name: Create Minecraft Server Directory
+      file:
+        path: /home/ubuntu/minecraft-server
+        state: directory
+        owner: ubuntu
+        group: ubuntu
+
+    - name: Download Minecraft Server
+      get_url:
+        url: https://piston-data.mojang.com/v1/objects/145ff0858209bcfc164859ba735d4199aafa1eea/server.jar
+        dest: /home/ubuntu/minecraft-server/server.jar
+        owner: ubuntu
+        group: ubuntu
+        mode: '0644'
+
+    - name: Set eula.txt file
+      copy:
+        content: "eula=true"
+        dest: /home/ubuntu/minecraft-server/eula.txt
+
+    - name: Create systemd Service Unit For Minecraft
+      copy:
+        content: |
+          [Unit]
+          Description=Minecraft Server
+          After=network.target
+
+          [Service]
+          User=ubuntu
+          WorkingDirectory=/home/ubuntu/minecraft-server
+          ExecStart=/usr/bin/java -Xmx1024M -Xms1024M -jar /home/ubuntu/minecraft-server/server.jar nogui
+          Restart=always
+          RestartSec=3
+
+          [Install]
+          WantedBy=multi-user.target
+        dest: /etc/systemd/system/minecraft.service
+        mode: '0644'
+
+    - name: Reload systemd to apply changes
+      command: systemctl daemon-reload
+
+    - name: Enable and Start the Minecraft Service
+      systemd:
+        name: minecraft
+        state: started
+        enabled: yes
