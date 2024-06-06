@@ -1,4 +1,4 @@
-- name: Provision Minecraft Server
+- name: Create Minecraft Server
   hosts: all
   become: yes
   tasks:
