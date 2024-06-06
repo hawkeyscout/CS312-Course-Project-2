@@ -183,7 +183,7 @@ Open the main.tf file in a text editor and add the following content step by ste
     }
     ```
 
-    9. **Launch EC2 Instance**
+9. **Launch EC2 Instance**
 
     Finally, launch an EC2 instance for the Minecraft server.
 
