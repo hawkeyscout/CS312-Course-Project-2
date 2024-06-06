@@ -16,7 +16,7 @@ This tutorial/project was completed using macOS in Oregon. It utilizes Terraform
 
 2. **Install Terraform**
 
-    Install Terraform by running the following command in your terminal:
+    Install [Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli) by running the following command in your terminal:
 
     ```sh
     brew install terraform
@@ -72,7 +72,7 @@ Open the main.tf file in a text editor and add the following content step by ste
 
 2. **Create an AWS Key Pair**
     
-    Next, define the AWS key pair resource. This key pair will be used to SSH into your EC2 instances.
+    Next, define the [AWS key pair](https://www.digitalocean.com/community/tutorials/how-to-create-ssh-keys-with-openssh-on-macos-or-linux) resource. This key pair will be used to SSH into your EC2 instances.
 
     ```sh
     resource "aws_key_pair" "MC-Server-Key" {
@@ -209,7 +209,7 @@ Open the main.tf file in a text editor and add the following content step by ste
         }
     }
     ```
-    Note: The provisioner at the bottom executes a small script to automate the parsing and addition of your host to a hosts file.
+    Note: The [provisioner](https://developer.hashicorp.com/terraform/language/resources/provisioners/syntax) at the bottom executes a small script to automate the parsing and addition of your host to a hosts file.
 
 # Setting up Your `playbook.yml` Playbook.
     
@@ -279,6 +279,8 @@ Open the playbook.yml file in a text editor and add the following content:
         enabled: yes    
 ```
 
+Note: [OpenJDK 21](https://www.geeksforgeeks.org/how-to-install-java-using-ansible-playbook/) was used because Minecraft version 1.20.6 requires it.
+
 # Setting up Your `Output.tf` File.
 
 Open the output.tf file in a text editor and add the following content:
@@ -315,4 +317,10 @@ Next, proceed to run your Ansible playbook. Simply execute the following command
 ansible-playbook -i hosts playbook.yml
 ```
 
-Once the playbook completes all tasks, you should be able to launch Minecraft version 1.20.6 and connect to your server via multiplayer.
+Once the playbook completes all tasks, you should be able to launch Minecraft version 1.20.6 and connect to your server via multiplayer. Additionally, you can check your server is running by executing the following command in your terminal:
+
+```sh
+nmap -sV -Pn -p T:25565 <instance_public_ip> 
+```
+
+Note: The status should say `open`.
