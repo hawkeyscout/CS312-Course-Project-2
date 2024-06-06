@@ -145,7 +145,7 @@ Open the main.tf file in a text editor and add the following content step by ste
 
 8. **Create Security Group**
     
-    Define a security group to control the inbound and outbound traffic.
+    Define a security group to control the inbound and outbound traffic. Port 22 is needed for SSH and Port 25565 is needed for Minecraft server connections.
 
     ```sh
     resource "aws_security_group" "minecraft_sg" {
